@@ -9,6 +9,8 @@ public interface IDataverseService : IOrganizationServiceAsync2
     Guid OrganizationId { get; }
     string OrganizationName { get; }
 
+    IDataverseServiceCache Cache { get; }
+
     void Connect();
     void Dispose();
 

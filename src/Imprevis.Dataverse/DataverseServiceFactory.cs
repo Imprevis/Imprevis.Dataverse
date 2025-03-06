@@ -9,11 +9,12 @@ internal class DataverseServiceFactory : IDataverseServiceFactory
 {
     private readonly ICollection<IDataverseService> services = [];
 
-    public DataverseServiceFactory(IOptions<DataverseServiceFactoryOptions> options, ILoggerFactory loggerFactory)
+    public DataverseServiceFactory(IOptions<DataverseServiceFactoryOptions> options, IDataverseServiceCacheFactory cacheFactory, ILoggerFactory loggerFactory)
     {
         foreach (var serviceOptions in options.Value.Services)
         {
-            var service = new DataverseService(serviceOptions, loggerFactory);
+            var cache = cacheFactory.Create(serviceOptions.OrganizationId);
+            var service = new DataverseService(serviceOptions, cache, loggerFactory);
             services.Add(service);
         }
     }
